@@ -9,16 +9,29 @@ const movieSelect = document.getElementById('movie');
 let ticketPrice = +movieSelect.value;
 
 
+//save selected movie Index
+const setMovieDate = (movieIndex, moviePrice) => {
+    localStorage.setItem('selectedMovieIndex',movieIndex);
+    localStorage.setItem('selectedMoviePrice',moviePrice);
+}
 const updateSelectedCount = () => {
     const selectedSeats = document.querySelectorAll('.row .seat.selected');
     const selectedSeatsCount = selectedSeats.length;
+
+    const selectedIndex = [...selectedSeats].map(seat => {
+        return [...seats].indexOf(seat);
+    })
+    localStorage.setItem('selectedSeats',JSON.stringify(selectedIndex));
+    console.log("selectedIndex", selectedIndex);
     count.innerText = selectedSeatsCount;
     total.innerText = selectedSeatsCount*ticketPrice;
+
 }
 
 //movie select event
 movieSelect.addEventListener('change', e => {
     ticketPrice = +e.target.value;
+    setMovieDate(e.target.selectedIndex, e.target.value);
     updateSelectedCount();
 })
 
